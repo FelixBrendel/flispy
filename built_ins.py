@@ -1,5 +1,4 @@
 
-
 def plus(env, *params):
     params = eval_params(env, params)
     result = 0

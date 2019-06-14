@@ -1,4 +1,4 @@
-from asserts import *
+from asserts import assert_number
 
 class Symbol(str):
     pass
@@ -23,7 +23,7 @@ class Environment(dict):
             if self.parents:
                 for parent in self.parents:
                     try:
-                        return parent.lookup_symbol(symbol)
+                        return parent[symbol]
                     except KeyError:
                         pass
             else:
@@ -31,7 +31,10 @@ class Environment(dict):
                     return Environment.GlobalBuiltIns.built_ins[symbol]
         raise KeyError(f"The symbol {symbol} is not defined")
 
-def eval_expr(obj, env):
+
+def eval_expr(obj, env: Environment):
+    """
+    """
     if type(obj) is list:
         if not obj:
             return obj
@@ -41,7 +44,7 @@ def eval_expr(obj, env):
     if isinstance(obj, Symbol):
         return env[obj]
 
-    if callable(obj)    or \
+    if callable(obj) or    \
        type(obj) is str or \
        type(obj) is int or \
        type(obj) is float:
@@ -51,8 +54,10 @@ def eval_expr(obj, env):
 def eval_params(env, params):
     return [eval_expr(p, env) for p in params]
 
+
 def p1(env, number):
     return number + 1
+
 
 env = Environment()
 
